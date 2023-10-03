@@ -16,7 +16,6 @@ class Product(models.Model):
     vendor = models.CharField(max_length=80)
     price = models.IntegerField()
     specialPrice = models.IntegerField()
-    images = models.CharField(max_length=80)
 
     def __str__(self):
         return self.name()
