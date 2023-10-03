@@ -1,3 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHS</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+
 {% for category in category_list %}
-<h1><a href="{% url 'detail' category.id %}">{{ category.name }}</a></h1>
-{% endfor %}
+    <div class="list-group">
+        <a href="{% url 'detail' category.id %}" class="list-group-item list-group-item-action">{{ category.name }}</a>
+      </div>
+{% endfor %} 
+
+</body>
+</html>
+
