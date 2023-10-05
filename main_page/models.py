@@ -18,7 +18,4 @@ class Product(models.Model):
     specialPrice = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
-        return self.name()
-    
-    def price_of_product(self):
-        return self.price()
+        return self.name
