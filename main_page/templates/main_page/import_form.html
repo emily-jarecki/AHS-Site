@@ -1,4 +1,6 @@
-<form method="post" action="" enctype="multipart/form-data">
+<h1>Input Form</h1>
+
+<form method="post" action="." enctype="multipart/form-data">
     {% csrf_token %}
     <input type="file" name="excel_file">
     <button type="submit">Import</button>
