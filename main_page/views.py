@@ -9,9 +9,9 @@ from .models import Category, Product
 # Create your views here.
 def index(request):
     category_list = Category.objects.all()
-    print("Category List: ", category_list)
-
-    return render(request, 'main_page/index.html')
+    product_list = Product.objects.all()
+    context = {"product_list": product_list, "category_list": category_list}
+    return render(request, 'main_page/index.html', context)
 
 def detail(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
@@ -30,31 +30,29 @@ def import_from_excel(request):
     
     if request.method == "POST":
 
-        # TYPE OF REQUEST
+        # IMPORTING EXCEL
         excel_file = request.FILES["excel_file"]
-
         wb = load_workbook(excel_file)
-        
         worksheet = wb["Sheet1"]
-
         excel_data = list()
-
         for row in worksheet.iter_rows():
             row_data = list()
             for cell in row:
                 row_data.append(str(cell.value))
+
             excel_data.append(row_data)
 
+            # BEGIN EXTRACTING INFO FROM EXCEL INTO DB
             category_var = row_data[3]
             categoryInstance = Category.objects.get(id=category_var)
             name_var = row_data[0]
             SKU_var = row_data[1]
-            print(SKU_var)
             desc_var = row_data[2]
-            print(desc_var)
             vendor_var = row_data[4]
             price_var = row_data[5]
             specialPrice_var = row_data[6]
+
+            # CREATING THIS OBJECT INTO DB
             Product.objects.create(name= name_var, SKU=SKU_var, description=desc_var, category= categoryInstance, vendor=vendor_var, price = price_var, specialPrice=specialPrice_var)
 
     return render(request, 'main_page/import_form.html')
