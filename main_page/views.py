@@ -1,7 +1,6 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, render
 from django.template import loader
-import openpyxl
 from openpyxl import load_workbook
 import pandas as pd
 
@@ -9,6 +8,9 @@ from .models import Category, Product
 
 # Create your views here.
 def index(request):
+
+    tempValueOne = Product.objects.filter(name = "Item1")
+    print(tempValueOne)
     category_list = Category.objects.all()
     print(category_list)
 
@@ -41,6 +43,7 @@ def product_detail(request, product_id):
 def import_from_excel(request):
     if request.method == "GET":
         print("hello world")
+
         return render(request, 'main_page/import_form.html')
     
     if request.method == "POST":
@@ -69,13 +72,13 @@ def import_from_excel(request):
         excel_data = list()
 
         # iterating over the rows and getting value from each cell in row
-        for row in worksheet.iter_rows():
-            row_data = list()
-            for cell in row:
-                row_data.append(str(cell.value))
-            excel_data.append(row_data)
+        # for row in worksheet.iter_rows():
+        #     row_data = list()
+        #     for cell in row:
+        #         row_data.append(str(cell.value))
+        #     excel_data.append(row_data)
 
-            # ALL ROWS 
-            print(row_data)
+        #     # ALL ROWS 
+        #     print(row_data)
         
         return render(request, 'main_page/import_form.html', {"excel_data":excel_data})
