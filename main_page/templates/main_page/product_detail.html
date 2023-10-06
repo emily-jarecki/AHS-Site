@@ -29,9 +29,6 @@
                         </div>
                         <div class="col-md-6">
                             <div class="product p-4">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex align-items-center"><span class="ml-1">Back</span> </div>
-                                </div>
                                 <div class="mt-4 mb-3"> <span class="text-uppercase text-muted brand">SKU: {{ product.SKU }}</span>
                                     <h5 class="text-uppercase">{{ product.name }}</h5>
                                     <div class="price d-flex flex-row align-items-center"> <span class="act-price">${{ product.price }}</span>
@@ -39,6 +36,10 @@
                                     </div>
                                 </div>
                                 <p class="about">{{ product.description }}</p>
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" value="Add to Cart">
+                                </form>
                             </div>
                         </div>
                     </div>

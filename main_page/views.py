@@ -10,6 +10,7 @@ from .models import Category, Product
 def index(request):
     category_list = Category.objects.all()
     product_list = Product.objects.all()
+
     context = {"product_list": product_list, "category_list": category_list}
     return render(request, 'main_page/index.html', context)
 
@@ -19,10 +20,70 @@ def detail(request, category_id):
     context = {'category': category, 'products': products}
     return render(request, "main_page/detail.html", context)
 
+#prod_id, qty
 def product_detail(request, product_id):
+    #pass another value send over that value in post data
     product = get_object_or_404(Product, pk=product_id)
+
+    # receiving data from the views
+    if request.method == "POST":
+
+
+
+        #take the id from add to cart button
+        #then search the instace
+        #add the instance to the session list
+        #u
+        ###########
+
+        # intace = [instance , instace 2] 
+
+
+        # request.session['my_cart'] = product_id
+        # print(request.session['my_cart'])
+
+        menu=[]
+        menu.append(request.session['cart'])
+        menu.append(product_id)
+        print(menu)
+
+        # # creating a session
+        request.session["cart"] = menu
+        print("DA NEW MENU: ", request.session['cart'])
+
+        # request.sesion= instace
+        # menu = []
+        # menu.append("string test")
+        # request.session["menu"] = menu
+        # varList2 = ["Geeks2", "for", "Geeks"]
+        
+        # request.session["list3"] = varList2
+        # print(request.session["list3"])
+        # print(request.session["menu"])
+        
+        # listOfCartItems = []
+
+        # SECOND WAY TO DO IT
+        # for key in request.session.keys():
+        #     print("key:=>" + str(request.session[key]))
+
+
     context = {"product": product}
     return render(request, "main_page/product_detail.html", context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def import_from_excel(request):
     if request.method == "GET":
