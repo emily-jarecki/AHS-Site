@@ -26,14 +26,14 @@ def product_detail(request, product_id):
 
     # receiving data from the views
     if request.method == "POST":
-        if 'my_cart4' in request.session:
+        if 'myCart' in request.session:
             print("It exists")
         else: 
             print("I have to create a my_cart")
-            request.session["my_cart4"] = []
+            request.session["myCart"] = []
 
         menu=[]
-        menu.append(request.session['my_cart4'])
+        menu.append(request.session['myCart'])
 
         flattened = []
 
@@ -48,8 +48,8 @@ def product_detail(request, product_id):
         print(flattened)
 
         # creating a session
-        request.session["my_cart4"] = flattened
-        print("The new session: ", request.session['my_cart4'])
+        request.session["myCart"] = flattened
+        print("The new session: ", request.session['myCart'])
         # del request.session['cart']
 
     context = {"product": product}
@@ -89,3 +89,18 @@ def import_from_excel(request):
             Product.objects.create(name= name_var, SKU=SKU_var, description=desc_var, category= categoryInstance, vendor=vendor_var, price = price_var, specialPrice=specialPrice_var)
 
     return render(request, 'main_page/import_form.html')
+
+
+def view_cart(request):
+    cart_list = request.session['myCart']
+    product_in_cart_list = []
+
+    for item in cart_list:
+        product_in_cart = Product.objects.filter(id=item)[0]
+        product_in_cart_list.append(product_in_cart)
+
+    for p in product_in_cart_list:
+        print(p)
+
+    context = {"cart_list": cart_list, "product_in_cart_list": product_in_cart_list, "product_in_cart" : product_in_cart}
+    return render(request, 'main_page/viewcart.html', context)

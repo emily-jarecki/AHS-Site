@@ -12,6 +12,14 @@
 
 <body>
   <h1>ViewCart Page</h1>
+    <!-- {% for product in product_in_cart_list %}
+        <p>{{ product.name }}</p>
+    {% endfor %} -->
+    {% for item in product_in_cart_list %}
+    <p>{{item.name}}</p>
+        <p>{{item.price}}</p>
+    {% endfor %}
+
 </body>
 
 </html>
