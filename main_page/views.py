@@ -93,6 +93,16 @@ def import_from_excel(request):
 
 def view_cart(request):
     cart_list = request.session['myCart']
+
+    counter = {}
+
+    for i in cart_list:
+        if i not in counter:
+            counter[i] = 0
+        counter[i] +=1
+
+    print(counter)
+
     product_in_cart_list = []
 
     for item in cart_list:
@@ -101,6 +111,8 @@ def view_cart(request):
 
     for p in product_in_cart_list:
         print(p)
+
+
 
     context = {"cart_list": cart_list, "product_in_cart_list": product_in_cart_list, "product_in_cart" : product_in_cart}
     return render(request, 'main_page/viewcart.html', context)
