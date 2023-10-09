@@ -95,15 +95,29 @@ def view_cart(request):
     cart_list = request.session['myCart']
 
     counter = {}
+    product_in_cart_list = []
 
     for i in cart_list:
         if i not in counter:
             counter[i] = 0
         counter[i] +=1
 
-    print(counter)
+    dict_keys = counter.keys()
+    dict_values = counter.values()
+    print(dict_keys)
+    print(dict_values)
 
-    product_in_cart_list = []
+    # for i in counter.keys():
+    #     print(i)
+    #     product_in_cart = Product.objects.filter(id=i)[0]
+    #     product_in_cart_list.append(product_in_cart)
+
+    prod_list =[] 
+    for item in dict_keys:
+        prod = Product.objects.filter(id=item)[0]
+        prod_list.append(prod)
+        print(prod)
+        print(counter[item])
 
     for item in cart_list:
         product_in_cart = Product.objects.filter(id=item)[0]
