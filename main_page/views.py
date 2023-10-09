@@ -20,68 +20,40 @@ def detail(request, category_id):
     context = {'category': category, 'products': products}
     return render(request, "main_page/detail.html", context)
 
-#prod_id, qty
 def product_detail(request, product_id):
     #pass another value send over that value in post data
     product = get_object_or_404(Product, pk=product_id)
 
     # receiving data from the views
     if request.method == "POST":
-
-
-
-        #take the id from add to cart button
-        #then search the instace
-        #add the instance to the session list
-        #u
-        ###########
-
-        # intace = [instance , instace 2] 
-
-
-        # request.session['my_cart'] = product_id
-        # print(request.session['my_cart'])
+        if 'my_cart4' in request.session:
+            print("It exists")
+        else: 
+            print("I have to create a my_cart")
+            request.session["my_cart4"] = []
 
         menu=[]
-        menu.append(request.session['cart'])
-        menu.append(product_id)
-        print(menu)
+        menu.append(request.session['my_cart4'])
 
-        # # creating a session
-        request.session["cart"] = menu
-        print("DA NEW MENU: ", request.session['cart'])
+        flattened = []
 
-        # request.sesion= instace
-        # menu = []
-        # menu.append("string test")
-        # request.session["menu"] = menu
-        # varList2 = ["Geeks2", "for", "Geeks"]
-        
-        # request.session["list3"] = varList2
-        # print(request.session["list3"])
-        # print(request.session["menu"])
-        
-        # listOfCartItems = []
+        for item in menu:
+            if isinstance(item, list):
+                flattened.extend(item)
+                flattened.append(product_id)
+            else:
+                flattened.append(item)
+                flattened.append(product_id)
 
-        # SECOND WAY TO DO IT
-        # for key in request.session.keys():
-        #     print("key:=>" + str(request.session[key]))
+        print(flattened)
 
+        # creating a session
+        request.session["my_cart4"] = flattened
+        print("The new session: ", request.session['my_cart4'])
+        # del request.session['cart']
 
     context = {"product": product}
     return render(request, "main_page/product_detail.html", context)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
