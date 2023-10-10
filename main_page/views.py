@@ -26,20 +26,6 @@ def product_detail(request, product_id):
 
     # receiving data from the views
     if request.method == "POST":
-        try:
-            customer = request.user.customer
-        except:
-            device = request.COOKIES['device']
-            customer, created = Quote.objects.get_or_create(device=device)
-        print(device)
-
-
-        if 'myCart' in request.session:
-            print("It exists")
-        else: 
-            print("I have to create a my_cart")
-            request.session["myCart"] = []
-
         menu=[]
         menu.append(request.session['myCart'])
 
@@ -96,27 +82,35 @@ def import_from_excel(request):
 
 def view_cart(request):
     cart_list = request.session['myCart']
-
     items_in_cart = {}
-
     # makes map of quantity
     for i in cart_list:
         if i not in items_in_cart:
             items_in_cart[i] = 0
         items_in_cart[i] +=1
     dict_keys = items_in_cart.keys()
-
     product_in_cart_list = []
     for item in cart_list:
         product_in_cart = Product.objects.get(id=item)
-        print(product_in_cart, "These are products in cart")
+        # print(product_in_cart, "These are products in cart")
         product_in_cart_list.append(product_in_cart)
-
     # this list only contains the items not being repeated
     prod_list =[] 
     for item in dict_keys:
         prod = Product.objects.filter(id=item)[0]
         prod_list.append(prod)
+
+        if 'myCart' in request.session:
+            print("It exists")
+        else: 
+            print("I have to create a my_cart")
+            request.session["myCart"] = []
+
+    device = request.COOKIES['device']
+    customer, created = Quote.objects.get_or_create(device=device)
+    print(device)
+
+
 
     context = {"prod_list": prod_list, "cart_Items": items_in_cart }
     return render(request, 'main_page/viewcart.html', context)
