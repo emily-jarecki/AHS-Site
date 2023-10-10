@@ -14,14 +14,17 @@
   <h1>ViewCart Page</h1>
 
   {% for product in prod_list %}
-      {% for key, value in cart_Items.items %}
-          {% if key == product.id %}
-              <p>The product id is {{product.id}}, name is {{product.name}} and it appears: {{value}} times.</p>
-          {% endif %}
-      {% endfor %}
+  {% for key, value in cart_Items.items %}
+  {% if key == product.id %}
+  <p>The product id is {{product.id}}, name is {{product.name}} and it appears: {{value}} times.</p>
+  {% endif %}
+  {% endfor %}
   {% endfor %}
 
-
+  <form action="" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Request Quote">
+  </form>
 
 </body>
 

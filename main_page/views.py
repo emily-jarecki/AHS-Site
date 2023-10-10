@@ -92,7 +92,6 @@ def view_cart(request):
     product_in_cart_list = []
     for item in cart_list:
         product_in_cart = Product.objects.get(id=item)
-        # print(product_in_cart, "These are products in cart")
         product_in_cart_list.append(product_in_cart)
     # this list only contains the items not being repeated
     prod_list =[] 
@@ -101,15 +100,15 @@ def view_cart(request):
         prod_list.append(prod)
 
         if 'myCart' in request.session:
-            print("It exists")
+            # print("It exists")
+            continue
         else: 
             print("I have to create a my_cart")
             request.session["myCart"] = []
 
-    device = request.COOKIES['device']
-    customer, created = Quote.objects.get_or_create(device=device)
-    print(device)
-
+#################
+    if request.method == "POST":
+        print("It's a post!")
 
 
     context = {"prod_list": prod_list, "cart_Items": items_in_cart }
