@@ -4,18 +4,15 @@ from django.template import loader
 from openpyxl import load_workbook
 import pandas as pd
 
-from .models import Category, Product
+from .models import Category, Product, Quote
 
 # Create your views here.
 def index(request):
     category_list = Category.objects.all()
     product_list = Product.objects.all()
 
-
     context = {"product_list": product_list, "category_list": category_list}
     return render(request, 'main_page/index.html', context)
-
-
 
 def detail(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
@@ -29,6 +26,14 @@ def product_detail(request, product_id):
 
     # receiving data from the views
     if request.method == "POST":
+        try:
+            customer = request.user.customer
+        except:
+            device = request.COOKIES['device']
+            customer, created = Quote.objects.get_or_create(device=device)
+        print(device)
+
+
         if 'myCart' in request.session:
             print("It exists")
         else: 
@@ -47,9 +52,6 @@ def product_detail(request, product_id):
             else:
                 flattened.append(item)
                 flattened.append(product_id)
-
-        print(flattened)
-
         # creating a session
         request.session["myCart"] = flattened
         print("The new session: ", request.session['myCart'])
@@ -57,7 +59,6 @@ def product_detail(request, product_id):
 
     context = {"product": product}
     return render(request, "main_page/product_detail.html", context)
-
 
 def import_from_excel(request):
     if request.method == "GET":
