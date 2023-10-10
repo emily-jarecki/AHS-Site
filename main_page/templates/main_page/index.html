@@ -17,20 +17,12 @@
 
     <h1>AHS</h1>
     <h1><a class="btn btn-primary" href="/main_page/viewcart">View Cart</a></h1>
-<p>{{my_car}}</p>
     <div>
         <h1>Categories</h1>
         {% for category in category_list %}
         <div class="list-group">
             <a href="{% url 'detail' category.id %}" class="list-group-item list-group-item-action">{{ category.name }}</a>
         </div>
-        {% endfor %}
-    </div>
-
-    <div>
-        <h1>All Products</h1>
-        {% for product in product_list %}
-        <p>- {{product}}</p>
         {% endfor %}
     </div>
 

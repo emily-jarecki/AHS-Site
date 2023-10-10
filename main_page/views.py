@@ -11,8 +11,11 @@ def index(request):
     category_list = Category.objects.all()
     product_list = Product.objects.all()
 
+
     context = {"product_list": product_list, "category_list": category_list}
     return render(request, 'main_page/index.html', context)
+
+
 
 def detail(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
@@ -56,7 +59,6 @@ def product_detail(request, product_id):
     return render(request, "main_page/product_detail.html", context)
 
 
-
 def import_from_excel(request):
     if request.method == "GET":
         print("hello world")
@@ -94,42 +96,26 @@ def import_from_excel(request):
 def view_cart(request):
     cart_list = request.session['myCart']
 
-    counter = {}
+    items_in_cart = {}
 
     # makes map of quantity
     for i in cart_list:
-        if i not in counter:
-            counter[i] = 0
-        counter[i] +=1
-    print(cart_list)
-    # print keys
-    dict_keys = counter.keys()
-    # print values
-    dict_values = counter.values()
-    print(counter)
-    # print(dict_keys)
-    # print(dict_values)
+        if i not in items_in_cart:
+            items_in_cart[i] = 0
+        items_in_cart[i] +=1
+    dict_keys = items_in_cart.keys()
 
-
-    # appending session values
-    # shows item twice+
     product_in_cart_list = []
     for item in cart_list:
         product_in_cart = Product.objects.get(id=item)
         print(product_in_cart, "These are products in cart")
         product_in_cart_list.append(product_in_cart)
-        # print(product_in_cart.SKU)
-    print("all items: ", product_in_cart_list)
 
     # this list only contains the items not being repeated
     prod_list =[] 
     for item in dict_keys:
         prod = Product.objects.filter(id=item)[0]
         prod_list.append(prod)
-        # print(prod, "---", counter[item])
-        # print(prod.price)
-    print("prod_list: ", prod_list)
 
-
-    context = {"cart_list": cart_list, "product_in_cart_list": product_in_cart_list, "product_in_cart" : product_in_cart, "prod_list": prod_list, "cart_Items": counter }
+    context = {"prod_list": prod_list, "cart_Items": items_in_cart }
     return render(request, 'main_page/viewcart.html', context)

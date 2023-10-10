@@ -19,3 +19,14 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Quote(models.Model):
+    cookie = models.CharField()
+    email =  models.EmailField(max_length=254)
+    item = models.CharField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.cookie
