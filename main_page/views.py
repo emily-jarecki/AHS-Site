@@ -95,38 +95,41 @@ def view_cart(request):
     cart_list = request.session['myCart']
 
     counter = {}
-    product_in_cart_list = []
 
+    # makes map of quantity
     for i in cart_list:
         if i not in counter:
             counter[i] = 0
         counter[i] +=1
-
+    print(cart_list)
+    # print keys
     dict_keys = counter.keys()
+    # print values
     dict_values = counter.values()
-    print(dict_keys)
-    print(dict_values)
+    print(counter)
+    # print(dict_keys)
+    # print(dict_values)
 
-    # for i in counter.keys():
-    #     print(i)
-    #     product_in_cart = Product.objects.filter(id=i)[0]
-    #     product_in_cart_list.append(product_in_cart)
 
+    # appending session values
+    # shows item twice+
+    product_in_cart_list = []
+    for item in cart_list:
+        product_in_cart = Product.objects.get(id=item)
+        print(product_in_cart, "These are products in cart")
+        product_in_cart_list.append(product_in_cart)
+        # print(product_in_cart.SKU)
+    print("all items: ", product_in_cart_list)
+
+    # this list only contains the items not being repeated
     prod_list =[] 
     for item in dict_keys:
         prod = Product.objects.filter(id=item)[0]
         prod_list.append(prod)
-        print(prod)
-        print(counter[item])
-
-    for item in cart_list:
-        product_in_cart = Product.objects.filter(id=item)[0]
-        product_in_cart_list.append(product_in_cart)
-
-    for p in product_in_cart_list:
-        print(p)
+        # print(prod, "---", counter[item])
+        # print(prod.price)
+    print("prod_list: ", prod_list)
 
 
-
-    context = {"cart_list": cart_list, "product_in_cart_list": product_in_cart_list, "product_in_cart" : product_in_cart}
+    context = {"cart_list": cart_list, "product_in_cart_list": product_in_cart_list, "product_in_cart" : product_in_cart, "prod_list": prod_list, "cart_Items": counter }
     return render(request, 'main_page/viewcart.html', context)

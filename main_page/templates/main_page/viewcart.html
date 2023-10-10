@@ -12,13 +12,32 @@
 
 <body>
   <h1>ViewCart Page</h1>
-    <!-- {% for product in product_in_cart_list %}
-        <p>{{ product.name }}</p>
-    {% endfor %} -->
-    {% for item in product_in_cart_list %}
-    <p>{{item.name}}</p>
-        <p>{{item.price}}</p>
-    {% endfor %}
+  <h1>{{cart_Items.values}}</h1>
+
+  {% for product in prod_list %}
+      {% for key, value in cart_Items.items %}
+          <!-- <p>The key is {{key}} and the value is {{value}}</p> -->
+          {% if key == product.id %}
+              <p>The product id is {{product.id}}, name is {{product.name}} and it appears: {{value}} times.</p>
+          {% endif %}
+      {% endfor %}
+  {% endfor %}
+
+
+  <!-- {% if product.id == cart_Items.keys %}
+    <h3>Here it is: {{product.id}}</h3>
+  {% endif %}
+  <p>{{product.id}}</p> -->
+  
+  <!-- <div>*</div>
+    <div>*</div>
+    {{cart_Items.keys}}
+<div>*</div>
+<div>*</div> -->
+
+  <!-- {% for key, value in cart_Items.items %}
+    <p>The key is {{key}} and the value is {{value}}</p>
+  {% endfor %} -->
 
 </body>
 
