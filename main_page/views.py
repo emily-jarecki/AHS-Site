@@ -1,6 +1,8 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, render
+from django.template import loader
 from openpyxl import load_workbook
+import pandas as pd
 
 from .models import Category, Product, Quote
 
@@ -21,11 +23,12 @@ def detail(request, category_id):
 def product_detail(request, product_id):
     #pass another value send over that value in post data
     product = get_object_or_404(Product, pk=product_id)
-
+    # del request.session['myCart']
+    request.session["CART"] = []
     # receiving data from the views
     if request.method == "POST":
         menu=[]
-        menu.append(request.session['myCart'])
+        menu.append(request.session['CART'])
 
         flattened = []
 
@@ -37,8 +40,8 @@ def product_detail(request, product_id):
                 flattened.append(item)
                 flattened.append(product_id)
         # creating a session
-        request.session["myCart"] = flattened
-        print("The new session: ", request.session['myCart'])
+        request.session["CART"] = flattened
+        print("The new session: ", request.session['CART'])
         # del request.session['cart']
 
     context = {"product": product}
@@ -78,7 +81,11 @@ def import_from_excel(request):
     return render(request, 'main_page/import_form.html')
 
 def view_cart(request):
-    cart_list = request.session['myCart']
+
+
+
+    cart_list = request.session['CART']
+    print(cart_list)
     items_in_cart = {}
     # makes map of quantity
     for i in cart_list:
@@ -100,12 +107,12 @@ def view_cart(request):
         prod = Product.objects.filter(id=item)[0]
         prod_list.append(prod)
 
-        if 'myCart' in request.session:
+        if 'CART' in request.session:
             # print("It exists")
             continue
         else: 
-            print("I have to create a my_cart")
-            request.session["myCart"] = []
+            print("I have to create a CART")
+            request.session["CART"] = []
 
     total_price_of_cart = sum(float(i) for i in prices_in_cart)
 
@@ -114,7 +121,7 @@ def view_cart(request):
         user_email = request.POST.get('email')
         print(user_email)
         # user_email = (value of label)
-        product_in_cart = request.session['myCart']
+        product_in_cart = request.session['CART']
         price_sum=total_price_of_cart
         # device_cookie=(gah)
 

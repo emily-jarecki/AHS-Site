@@ -16,11 +16,11 @@
   <h1>ViewCart Page</h1>
 
   {% for product in prod_list %}
-  {% for key, value in cart_Items.items %}
-  {% if key == product.id %}
-  <p>The product id is {{product.id}}, name is {{product.name}} and it appears: {{value}} times with a price of ${{product.price}}.</p>
-  {% endif %}
-  {% endfor %}
+    {% for key, value in cart_Items.items %}
+      {% if key == product.id %}
+        <p>The  product id is {{product.id}}, name is {{product.name}} and it appears: {{value}} times with a price of ${{product.price}}.</p>
+      {% endif %}
+    {% endfor %}
   {% endfor %}
 
   <h1>Total: {{total_price_of_cart}}</h1>
