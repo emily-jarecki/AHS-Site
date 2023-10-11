@@ -13,7 +13,8 @@
 <body>
   <h1><a class="btn btn-primary" href="/main_page/">Go Home</a></h1>
   <h1>{{ category.name }}</h1>
-  <div class="card-group">
+
+  <div class="card-group row row-cols-1 row-cols-md-2 g-4  d-flex justify-content-center">
     {% for product in products %}
     <div class="card mb-3" style="max-width: 18rem;">      
       <img src="https://cdn.commercev3.net/cdn.shopmedvet.com/images/large/{{ product.SKU }}.jpg" class="card-img-top" alt="{{ product.name }}">
@@ -27,6 +28,7 @@
     </div>
     {% endfor %}
   </div>
+
 </body>
 
 </html>
