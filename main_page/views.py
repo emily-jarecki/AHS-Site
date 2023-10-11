@@ -1,8 +1,6 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, render
-from django.template import loader
 from openpyxl import load_workbook
-import pandas as pd
 
 from .models import Category, Product, Quote
 
@@ -79,7 +77,6 @@ def import_from_excel(request):
 
     return render(request, 'main_page/import_form.html')
 
-
 def view_cart(request):
     cart_list = request.session['myCart']
     items_in_cart = {}
@@ -90,9 +87,13 @@ def view_cart(request):
         items_in_cart[i] +=1
     dict_keys = items_in_cart.keys()
     product_in_cart_list = []
+    prices_in_cart =[]
+
     for item in cart_list:
         product_in_cart = Product.objects.get(id=item)
         product_in_cart_list.append(product_in_cart)
+        prices_in_cart.append(product_in_cart.price)
+
     # this list only contains the items not being repeated
     prod_list =[] 
     for item in dict_keys:
@@ -106,10 +107,19 @@ def view_cart(request):
             print("I have to create a my_cart")
             request.session["myCart"] = []
 
-#################
+    total_price_of_cart = sum(float(i) for i in prices_in_cart)
+
+
     if request.method == "POST":
-        print("It's a post!")
+        user_email = request.POST.get('email')
+        print(user_email)
+        # user_email = (value of label)
+        product_in_cart = request.session['myCart']
+        price_sum=total_price_of_cart
+        # device_cookie=(gah)
+
+        Quote.objects.create(user_email = user_email, products_in_cart=product_in_cart, price_sum=price_sum, device_cookie="12345absde" )
 
 
-    context = {"prod_list": prod_list, "cart_Items": items_in_cart }
+    context = {"prod_list": prod_list, "cart_Items": items_in_cart, "total_price_of_cart": total_price_of_cart }
     return render(request, 'main_page/viewcart.html', context)

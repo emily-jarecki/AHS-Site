@@ -21,13 +21,12 @@ class Product(models.Model):
         return self.name
     
 class Quote(models.Model):
-    cookie = models.CharField()
-    email =  models.EmailField(max_length=254)
-    item = models.CharField()
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    device_cookie = models.CharField(max_length=200, null=True, blank=True)
+    user_email =  models.EmailField(max_length=254)
+    products_in_cart = models.CharField()
+    price_sum = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-    device = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        return self.cookie
+        return self.products_in_cart
