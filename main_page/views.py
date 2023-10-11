@@ -8,7 +8,9 @@ from .models import Category, Product, Quote
 def index(request):
     category_list = Category.objects.all()
     product_list = Product.objects.all()
-
+    if request.method == "POST":
+        print("post request")
+        print(request)
     context = {"product_list": product_list, "category_list": category_list}
     return render(request, 'main_page/index.html', context)
 
