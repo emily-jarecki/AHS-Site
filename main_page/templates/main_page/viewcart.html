@@ -13,23 +13,27 @@
 <body>
   <h1><a class="btn btn-primary" href="/main_page/">Go Home</a></h1>
 
-  <h1>ViewCart Page</h1>
+  <h1>Cart</h1>
 
   {% for product in prod_list %}
-  {% for key, value in cart_Items.items %}
-  {% if key == product.id %}
-  <p>The product id is {{product.id}}, name is {{product.name}} and it appears: {{value}} times with a price of ${{product.price}}.</p>
-  {% endif %}
-  {% endfor %}
+    {% for key, value in cart_Items.items %}
+      {% if key == product.id %}
+        <h4>Item: {{product.name}}</h4>
+        <p>Qty: {{value}},      Price: ${{product.price}}</p>
+        <br>
+      {% endif %}
+    {% endfor %}
   {% endfor %}
 
-  <h1>Total: {{total_price_of_cart}}</h1>
-
+  <h1>Total: ${{total_price_of_cart}}</h1>
+<br>
+<br>
+  <h1>To recieve a quote:</h1>
   <form action="." method="post">
     {% csrf_token %}
-    <label for="email">Your email: </label>
-    <input name="email" title="title" id="email" type="email" required>
-    <input type="submit" value="Request Quote">
+    <label for="email" class="form-label">Email address: </label>
+    <input name="email" title="title" id="email" type="email" class="form-control mb-3" required>
+    <input type="submit"  class="btn btn-primary" value="Request Quote">
   </form>
 
 </body>

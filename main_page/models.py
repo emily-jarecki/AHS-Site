@@ -29,4 +29,4 @@ class Quote(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.products_in_cart
+        return self.user_email
