@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category Products</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+</head>
+
+<body>
+  <h1><a class="btn btn-primary" href="/main_page/">Go Home</a></h1>
+
+    <h1>View all quotes here.</h1>
+    {% for quote in quotes %}
+        <h4>{{quote.user_email}}</h4>
+        <p>{{quote.products_in_cart}}</p>
+        <p>${{quote.price_sum}}</p>
+        <p>{{quote.created_at}}</p>
+        <br>
+    {% endfor %}
+
+</body>
+
+</html>
