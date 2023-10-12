@@ -6,12 +6,41 @@ from .models import Category, Product, Quote
 
 # Create your views here.
 def index(request):
+
+    #----------New Ajax Feature ----------
+    #new search feature
+    # url_parameter = request.GET.get("q")
+    is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest" and does_req_accept_json
+    # print(url_parameter)
+
+    # if url_parameter:
+    #     searchQuery = request.POST.get('searchQuery')
+    #     reults = Product.objects.filter(name__icontains= searchQuery)
+    #     print(reults)
+    if is_ajax_request:
+        html = render_to_string(
+            template_name="artists-results-partial.html", 
+            context={"results": reults}
+        )
+
+        data_dict = {"html_from_view": html}
+
+        return JsonResponse(data=data_dict, safe=False)
+        
+    #----------New Ajax Feature ----------
+
     category_list = Category.objects.all()
     product_list = Product.objects.all()
-    if request.method == "POST":
-        print("post request")
-        print(request)
-    context = {"product_list": product_list, "category_list": category_list}
+    if  request.method == "POST":
+        searchQuery = request.POST.get('searchQuery')
+        reults = Product.objects.filter(name__icontains= searchQuery)
+
+        context = {"product_list": product_list, "category_list": category_list, "searchQuery": reults}
+    else:
+        print("here")
+        reults = "empty"
+        context = {"product_list": product_list, "category_list": category_list, "searchQuery": reults}
+
     return render(request, 'main_page/index.html', context)
 
 def detail(request, category_id):
